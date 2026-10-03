@@ -1,0 +1,229 @@
+{
+  "suite": "synthetic-engineering-atlas-v1",
+  "evaluated_at": "2026-10-03T16:46:15.070179+00:00",
+  "case_count": 8,
+  "passed": 8,
+  "pass_rate": 1.0,
+  "cases": [
+    {
+      "id": "payments-delay",
+      "passed": true,
+      "checks": {
+        "http_status": true,
+        "answer_status": true,
+        "answer_fact_1": true,
+        "answer_fact_2": true,
+        "answer_fact_3": true,
+        "citation:PAY-123": true,
+        "citation:payments-rollout": true,
+        "route:jira": true,
+        "route:slack": true,
+        "route:documents": true,
+        "absent:RESTRICTED_FIXTURE_DO_NOT_RELEASE": true,
+        "absent:UNKNOWN_ELIGIBILITY_DO_NOT_RELEASE": true
+      },
+      "duration_ms": 1038,
+      "status": "partial",
+      "baseline": {
+        "passed": false,
+        "checks": {
+          "http_status": true,
+          "answer_status": true,
+          "answer_fact_1": false,
+          "answer_fact_2": false,
+          "answer_fact_3": false,
+          "citation:PAY-123": false,
+          "citation:payments-rollout": true,
+          "route:jira": false,
+          "route:slack": false,
+          "route:documents": true,
+          "absent:RESTRICTED_FIXTURE_DO_NOT_RELEASE": true,
+          "absent:UNKNOWN_ELIGIBILITY_DO_NOT_RELEASE": true
+        }
+      }
+    },
+    {
+      "id": "payments-owner",
+      "passed": true,
+      "checks": {
+        "http_status": true,
+        "answer_status": true,
+        "answer_fact_1": true,
+        "answer_fact_2": true,
+        "citation:payments-ownership": true,
+        "route:documents": true,
+        "absent:RESTRICTED_FIXTURE_DO_NOT_RELEASE": true,
+        "absent:UNKNOWN_ELIGIBILITY_DO_NOT_RELEASE": true
+      },
+      "duration_ms": 983,
+      "status": "partial",
+      "baseline": {
+        "passed": true,
+        "checks": {
+          "http_status": true,
+          "answer_status": true,
+          "answer_fact_1": true,
+          "answer_fact_2": true,
+          "citation:payments-ownership": true,
+          "route:documents": true,
+          "absent:RESTRICTED_FIXTURE_DO_NOT_RELEASE": true,
+          "absent:UNKNOWN_ELIGIBILITY_DO_NOT_RELEASE": true
+        }
+      }
+    },
+    {
+      "id": "capability-onboarding",
+      "passed": true,
+      "checks": {
+        "http_status": true,
+        "answer_status": true,
+        "answer_fact_1": true,
+        "answer_fact_2": true,
+        "answer_fact_3": true,
+        "citation:capability-onboarding": true,
+        "route:documents": true,
+        "absent:RESTRICTED_FIXTURE_DO_NOT_RELEASE": true,
+        "absent:UNKNOWN_ELIGIBILITY_DO_NOT_RELEASE": true
+      },
+      "duration_ms": 13,
+      "status": "answered",
+      "baseline": {
+        "passed": true,
+        "checks": {
+          "http_status": true,
+          "answer_status": true,
+          "answer_fact_1": true,
+          "answer_fact_2": true,
+          "answer_fact_3": true,
+          "citation:capability-onboarding": true,
+          "route:documents": true,
+          "absent:RESTRICTED_FIXTURE_DO_NOT_RELEASE": true,
+          "absent:UNKNOWN_ELIGIBILITY_DO_NOT_RELEASE": true
+        }
+      }
+    },
+    {
+      "id": "rollout-guide",
+      "passed": true,
+      "checks": {
+        "http_status": true,
+        "answer_status": true,
+        "answer_fact_1": true,
+        "citation:payments-rollout": true,
+        "route:documents": true,
+        "absent:RESTRICTED_FIXTURE_DO_NOT_RELEASE": true,
+        "absent:UNKNOWN_ELIGIBILITY_DO_NOT_RELEASE": true
+      },
+      "duration_ms": 13,
+      "status": "answered",
+      "baseline": {
+        "passed": true,
+        "checks": {
+          "http_status": true,
+          "answer_status": true,
+          "answer_fact_1": true,
+          "citation:payments-rollout": true,
+          "route:documents": true,
+          "absent:RESTRICTED_FIXTURE_DO_NOT_RELEASE": true,
+          "absent:UNKNOWN_ELIGIBILITY_DO_NOT_RELEASE": true
+        }
+      }
+    },
+    {
+      "id": "out-of-domain",
+      "passed": true,
+      "checks": {
+        "http_status": true,
+        "answer_status": true,
+        "abstention_has_no_citations": true,
+        "absent:RESTRICTED_FIXTURE_DO_NOT_RELEASE": true,
+        "absent:UNKNOWN_ELIGIBILITY_DO_NOT_RELEASE": true
+      },
+      "duration_ms": 2263,
+      "status": "insufficient_evidence",
+      "baseline": {
+        "passed": true,
+        "checks": {
+          "http_status": true,
+          "answer_status": true,
+          "abstention_has_no_citations": true,
+          "absent:RESTRICTED_FIXTURE_DO_NOT_RELEASE": true,
+          "absent:UNKNOWN_ELIGIBILITY_DO_NOT_RELEASE": true
+        }
+      }
+    },
+    {
+      "id": "restricted-ticket",
+      "passed": true,
+      "checks": {
+        "http_status": true,
+        "answer_status": true,
+        "abstention_has_no_citations": true,
+        "absent:RESTRICTED_FIXTURE_DO_NOT_RELEASE": true,
+        "absent:UNKNOWN_ELIGIBILITY_DO_NOT_RELEASE": true,
+        "absent:acquisition": true
+      },
+      "duration_ms": 2101,
+      "status": "insufficient_evidence",
+      "baseline": {
+        "passed": true,
+        "checks": {
+          "http_status": true,
+          "answer_status": true,
+          "abstention_has_no_citations": true,
+          "absent:RESTRICTED_FIXTURE_DO_NOT_RELEASE": true,
+          "absent:UNKNOWN_ELIGIBILITY_DO_NOT_RELEASE": true,
+          "absent:acquisition": true
+        }
+      }
+    },
+    {
+      "id": "missing-ticket",
+      "passed": true,
+      "checks": {
+        "http_status": true,
+        "answer_status": true,
+        "abstention_has_no_citations": true,
+        "absent:RESTRICTED_FIXTURE_DO_NOT_RELEASE": true,
+        "absent:UNKNOWN_ELIGIBILITY_DO_NOT_RELEASE": true
+      },
+      "duration_ms": 1973,
+      "status": "insufficient_evidence",
+      "baseline": {
+        "passed": true,
+        "checks": {
+          "http_status": true,
+          "answer_status": true,
+          "abstention_has_no_citations": true,
+          "absent:RESTRICTED_FIXTURE_DO_NOT_RELEASE": true,
+          "absent:UNKNOWN_ELIGIBILITY_DO_NOT_RELEASE": true
+        }
+      }
+    },
+    {
+      "id": "input-injection",
+      "passed": true,
+      "checks": {
+        "http_status": true,
+        "absent:RESTRICTED_FIXTURE_DO_NOT_RELEASE": true,
+        "absent:UNKNOWN_ELIGIBILITY_DO_NOT_RELEASE": true,
+        "absent:local-demo-token": true,
+        "absent:local-mcp-token": true
+      },
+      "duration_ms": 2,
+      "status": 422,
+      "baseline": {
+        "passed": true,
+        "checks": {
+          "http_status": true,
+          "absent:RESTRICTED_FIXTURE_DO_NOT_RELEASE": true,
+          "absent:UNKNOWN_ELIGIBILITY_DO_NOT_RELEASE": true,
+          "absent:local-demo-token": true,
+          "absent:local-mcp-token": true
+        }
+      }
+    }
+  ],
+  "limitations": "Deterministic synthetic assertions; not production quality or security certification.",
+  "baseline_pass_rate": 0.875
+}

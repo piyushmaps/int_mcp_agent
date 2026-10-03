@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fb">
+  <meta name="description" content="Engineering Atlas brings your engineering knowledge together with answers grounded in Jira, Slack, and approved documents.">
+  <title>Engineering Atlas</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%235b4ce5'/%3E%3Cpath d='M10 28L20 10l10 18M14 22h12' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/app.css">
+  <script defer src="/static/app.js"></script>
+</head>
+<body>
+  <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 2.7 6.3L21 12l-6.3 2.7L12 21l-2.7-6.3L3 12l6.3-2.7L12 3Z"/><path d="M20 2v4M18 4h4"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M10 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-5"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8l-5-5Z"/><path d="M14 3v6h5M8 13h8M8 17h5"/></symbol>
+    <symbol id="i-slack" viewBox="0 0 24 24"><path d="m9 3-2 18M17 3l-2 18M3 9l18-2M3 17l18-2"/></symbol>
+    <symbol id="i-jira" viewBox="0 0 24 24"><path d="m12 3 9 9-9 9-9-9 9-9Z"/><path d="m12 8 4 4-4 4-4-4 4-4Z"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6l8-3Z"/><path d="m8 12 3 3 5-6"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="m9 3-1 3-3 1-2 3 2 2-1 3 3 3 3-1 2 3 4-1 1-3 3-1 1-4-3-2V7l-3-2-3 1-3-3Z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V3M7 8l5-5 5 5M4 15v6h16v-6"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 10a8 8 0 0 0-14-5L3 8M3 3v5h5M4 14a8 8 0 0 0 14 5l3-3M21 21v-5h-5"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+    <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 15a3 3 0 0 1-3 3H9l-6 3V6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v9Z"/><path d="M7 8h10M7 12h6"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7v.5"/></symbol>
+  </defs></svg>
+  <div class="app-shell">
+    <div id="sidebar-backdrop" class="sidebar-backdrop" hidden></div>
+    <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+      <a class="brand" href="/" aria-label="Engineering Atlas home"><span class="brand-mark">A<span></span></span><span>atlas<span class="brand-caption">ENGINEERING KNOWLEDGE</span></span></a>
+      <button class="new-chat" id="new-chat"><svg class="icon"><use href="#i-plus"/></svg> New conversation <span class="shortcut">N</span></button>
+      <div class="nav-label">WORKSPACE</div>
+      <nav class="main-nav">
+        <button class="nav-item active" data-view="ask" aria-current="page"><svg class="icon"><use href="#i-spark"/></svg><span>Ask assistant</span></button>
+        <button class="nav-item" data-view="knowledge"><svg class="icon"><use href="#i-grid"/></svg><span>Knowledge</span><span class="nav-count" id="document-count">—</span></button>
+        <button class="nav-item" data-view="activity"><svg class="icon"><use href="#i-clock"/></svg><span>Activity</span></button>
+      </nav>
+      <div class="history-heading"><span class="nav-label">RECENT CONVERSATIONS</span><button class="icon-button small" id="refresh-sessions" aria-label="Refresh conversations"><svg class="icon"><use href="#i-refresh"/></svg></button></div>
+      <div class="session-list" id="session-list"><p class="sidebar-empty">Your conversations will appear here.</p></div>
+      <div class="sidebar-bottom">
+        <div class="workspace-status"><span class="status-dot" id="sidebar-status-dot"></span><div><strong id="sidebar-status">Connecting to workspace</strong><span id="sidebar-status-sub">Checking available sources</span></div></div>
+        <button class="profile" id="open-settings"><span class="avatar">DE</span><span><strong>Demo engineer</strong><small>Local workspace</small></span><svg class="icon"><use href="#i-settings"/></svg></button>
+      </div>
+    </aside>
+    <div class="workspace">
+      <header class="topbar">
+        <div class="breadcrumb"><button class="icon-button mobile-menu" id="mobile-menu" aria-label="Open navigation" aria-expanded="false"><svg class="icon"><use href="#i-menu"/></svg></button><span class="breadcrumb-workspace">Engineering workspace</span><svg class="icon breadcrumb-arrow"><use href="#i-chevron"/></svg><strong id="view-title">Ask assistant</strong></div>
+        <div class="topbar-right"><span class="demo-badge" id="mode-badge"><span></span> Demo environment</span><button class="icon-button" id="top-settings" aria-label="Connection settings"><svg class="icon"><use href="#i-settings"/></svg></button></div>
+      </header>
+      <main>
+        <section id="view-ask" class="view ask-view" aria-label="Ask assistant">
+          <div class="chat-column">
+            <div id="welcome" class="welcome">
+              <div class="eyebrow"><span class="eyebrow-line"></span> LESS SEARCHING. MORE BUILDING.</div>
+              <h1>Your team's knowledge.<br><span>One clear answer.</span></h1>
+              <p class="welcome-description">Connect the dots across tickets, conversations, and docs.<br class="desktop-break"> Ask a question. Get the context, with sources to back it up.</p>
+              <div class="connected-sources"><span><span class="source-mini jira"><svg class="icon"><use href="#i-jira"/></svg></span>Jira</span><i></i><span><span class="source-mini slack"><svg class="icon"><use href="#i-slack"/></svg></span>Slack</span><i></i><span><span class="source-mini docs"><svg class="icon"><use href="#i-file"/></svg></span>Documents</span><span class="connected-label"><span class="status-dot"></span>Unified search</span></div>
+              <div class="suggestion-heading">A good place to start<span>TRY A QUESTION</span></div>
+              <div class="suggestion-grid">
+                <button class="suggestion" data-question="Why is the Payments release delayed, and where is its rollout guide?"><span class="suggestion-icon purple"><svg class="icon"><use href="#i-jira"/></svg></span><strong>Get the full picture</strong><span>Why is the Payments release delayed?</span><svg class="icon suggestion-arrow"><use href="#i-chevron"/></svg></button>
+                <button class="suggestion" data-question="What is the status of PAY-123 and who owns the next step?"><span class="suggestion-icon blue"><svg class="icon"><use href="#i-message"/></svg></span><strong>Find the latest update</strong><span>What's happening with PAY-123?</span><svg class="icon suggestion-arrow"><use href="#i-chevron"/></svg></button>
+                <button class="suggestion" data-question="Where is the Payments rollout guide and what are the rollback steps?"><span class="suggestion-icon amber"><svg class="icon"><use href="#i-file"/></svg></span><strong>Find the right document</strong><span>Show me the Payments rollout guide.</span><svg class="icon suggestion-arrow"><use href="#i-chevron"/></svg></button>
+              </div>
+            </div>
+            <div id="conversation" class="conversation" aria-label="Conversation" aria-live="polite" aria-relevant="additions" hidden></div>
+            <div class="composer-area">
+              <form id="chat-form" class="composer">
+                <label class="sr-only" for="question">Ask your engineering assistant</label>
+                <textarea id="question" name="question" maxlength="4000" rows="2" placeholder="Ask anything about your engineering workspace…" required></textarea>
+                <div class="composer-toolbar"><span class="composer-sources"><svg class="icon"><use href="#i-spark"/></svg> Search all sources <span class="mini-divider"></span><span id="character-count">0 / 4,000</span></span><div><button type="button" class="stop-button" id="stop-button" hidden><svg class="icon"><use href="#i-stop"/></svg> Stop</button><button type="submit" class="send-button" id="send-button" aria-label="Send question" disabled><svg class="icon"><use href="#i-arrow"/></svg></button></div></div>
+              </form>
+              <div class="composer-hint"><span><svg class="icon"><use href="#i-shield"/></svg> Answers grounded in approved sources</span><span>Enter to send <span class="key-hint">↵</span><span class="shift-hint"> · Shift + Enter for a new line</span></span></div>
+              <p class="demo-note" id="demo-note">You're exploring a local demo with synthetic engineering data.</p>
+            </div>
+          </div>
+          <aside class="context-panel">
+            <div class="context-title"><span class="context-icon"><svg class="icon"><use href="#i-grid"/></svg></span><h2>Your knowledge, connected</h2></div>
+            <p class="context-description">The context you need, from the tools your team already uses.</p>
+            <div class="source-overview"><div class="source-logo jira"><svg class="icon"><use href="#i-jira"/></svg></div><div><strong>Jira</strong><span>Issues & project updates</span></div><span class="source-state" id="source-jira" title="Connection not checked"></span></div>
+            <div class="source-overview"><div class="source-logo slack"><svg class="icon"><use href="#i-slack"/></svg></div><div><strong>Slack</strong><span>Discussions & decisions</span></div><span class="source-state" id="source-slack" title="Connection not checked"></span></div>
+            <div class="source-overview"><div class="source-logo docs"><svg class="icon"><use href="#i-file"/></svg></div><div><strong>Documents</strong><span>Guides & team knowledge</span></div><span class="source-state" id="source-documents" title="Connection not checked"></span></div>
+            <button class="text-button manage-knowledge" id="manage-knowledge">Explore knowledge <svg class="icon"><use href="#i-chevron"/></svg></button>
+            <div class="context-divider"></div>
+            <div class="trust-card"><span class="trust-icon"><svg class="icon"><use href="#i-shield"/></svg></span><h3>Clarity you can trace</h3><p>Every answer is checked against its evidence. Open a citation to see exactly where the information came from.</p><div><span class="small-check">✓</span> Sources included</div><div><span class="small-check">✓</span> Missing context made clear</div></div>
+            <div class="context-footer"><span class="brand-small">A</span><span>Built for the way<br>engineering teams work.</span></div>
+          </aside>
+        </section>
+        <section id="view-knowledge" class="view content-view" hidden aria-labelledby="knowledge-heading">
+          <div class="page-heading"><div><div class="eyebrow">YOUR SHARED CONTEXT</div><h1 id="knowledge-heading">Knowledge library</h1><p>Approved documents that give your answers their context.</p></div><button class="primary-button" id="upload-trigger"><svg class="icon"><use href="#i-plus"/></svg>Add document</button></div>
+          <div class="library-source-cards"><div><span class="source-logo jira"><svg class="icon"><use href="#i-jira"/></svg></span><strong>Jira</strong><span>Read live through MCP</span><span class="source-label">Synthetic data</span></div><div><span class="source-logo slack"><svg class="icon"><use href="#i-slack"/></svg></span><strong>Slack</strong><span>Read live through MCP</span><span class="source-label">Synthetic data</span></div><div><span class="source-logo docs"><svg class="icon"><use href="#i-file"/></svg></span><strong>Documents</strong><span id="library-document-count">Loading index…</span><span class="source-label neutral">Search index</span></div></div>
+          <div class="upload-zone" id="upload-zone"><span class="upload-zone-icon"><svg class="icon"><use href="#i-upload"/></svg></span><div><strong>Bring your team's knowledge together</strong><p>Drop a document here, or <button class="inline-button" id="browse-upload">browse files</button></p><small>Markdown, text, PDF, or Word · Up to 10 MB per file</small></div><input id="file-input" type="file" accept=".md,.markdown,.txt,.pdf,.docx" hidden></div>
+          <div id="upload-status" class="upload-status" role="status" hidden></div>
+          <div class="table-toolbar"><h2>Indexed documents <span class="count-chip" id="table-document-count">0</span></h2><div class="table-tools"><label class="search-field"><svg class="icon"><use href="#i-search"/></svg><input id="document-search" type="search" placeholder="Search documents" aria-label="Search documents"></label><button class="icon-button" id="refresh-documents" aria-label="Refresh document index"><svg class="icon"><use href="#i-refresh"/></svg></button></div></div>
+          <div id="document-list" class="document-list"></div>
+          <p class="library-footnote"><svg class="icon"><use href="#i-shield"/></svg> Documents are screened before indexing. Removing a document also removes its searchable passages.</p>
+        </section>
+        <section id="view-activity" class="view content-view" hidden aria-labelledby="activity-heading">
+          <div class="page-heading"><div><div class="eyebrow">A LOOK BEHIND THE ANSWERS</div><h1 id="activity-heading">Workspace activity</h1><p>Track requests, source checks, and outcomes in your workspace.</p></div><button class="secondary-button" id="refresh-activity"><svg class="icon"><use href="#i-refresh"/></svg>Refresh</button></div>
+          <div class="activity-stats"><div><span>Total requests</span><strong id="stat-total">—</strong></div><div><span>Answers delivered</span><strong id="stat-success">—</strong></div><div><span>Average response</span><strong id="stat-duration">—</strong></div></div>
+          <div class="table-toolbar"><h2>Recent activity</h2><span class="muted">Latest requests first</span></div><div id="activity-list" class="activity-list"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <div class="toast-container" id="toast-container" role="status" aria-live="polite"></div>
+  <dialog id="settings-dialog" class="modal settings-modal"><form id="settings-form"><div class="modal-heading"><div><span class="eyebrow">WORKSPACE</span><h2>Connection settings</h2></div><button type="button" class="icon-button" id="close-settings" aria-label="Close settings"><svg class="icon"><use href="#i-close"/></svg></button></div><p>Use the access token configured for this workspace. The local demo starts with <code>local-demo-token</code>.</p><label class="field-label" for="access-token">Access token</label><input id="access-token" type="password" autocomplete="off" spellcheck="false" required><p class="field-hint">Stored only for this browser tab's session.</p><div class="modal-footer"><button type="button" class="secondary-button" id="cancel-settings">Cancel</button><button class="primary-button" type="submit">Save connection</button></div></form></dialog>
+  <dialog id="citation-dialog" class="modal citation-modal"><div class="modal-heading"><div><span class="eyebrow">SOURCE DETAILS</span><h2 id="citation-title">Source</h2></div><button class="icon-button" id="close-citation" aria-label="Close source details"><svg class="icon"><use href="#i-close"/></svg></button></div><div id="citation-content"></div></dialog>
+  <dialog id="confirm-dialog" class="modal confirm-modal"><div class="modal-heading"><h2 id="confirm-title">Remove document?</h2><button class="icon-button" id="close-confirm" aria-label="Close confirmation"><svg class="icon"><use href="#i-close"/></svg></button></div><p id="confirm-message"></p><div class="modal-footer"><button class="secondary-button" id="cancel-confirm">Cancel</button><button class="danger-button" id="accept-confirm">Remove</button></div></dialog>
+  <noscript>This workspace requires JavaScript to query sources and manage documents.</noscript>
+</body>
+</html>
