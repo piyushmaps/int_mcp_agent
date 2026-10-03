@@ -1,0 +1,281 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "Document ingestion: screen before embed, publish atomically",
+    "output": "docs/diagrams/ingestion-dataflow.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/piyushmaps/int_mcp_agent",
+      "provider": "github",
+      "link_mode": "web",
+      "revision": "bde0429ed992c7506fb66da50bc121bc7bd12f00"
+    },
+    "viewBox": [
+      1070,
+      540
+    ]
+  },
+  "stages": [
+    {
+      "label": "Sources"
+    },
+    {
+      "label": "Extract"
+    },
+    {
+      "label": "Screen"
+    },
+    {
+      "label": "Chunk + embed"
+    },
+    {
+      "label": "Publish"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "connectors",
+      "type": "external",
+      "label": "Connectors",
+      "sublabel": "dir, web, Drive",
+      "tag": "trusted ACL",
+      "stage": 0,
+      "row": 0,
+      "sources": [
+        {
+          "path": "src/connectors/filesystem.py",
+          "line": 31,
+          "end_line": 64
+        },
+        {
+          "path": "src/connectors/web.py",
+          "line": 20,
+          "end_line": 77
+        },
+        {
+          "path": "src/connectors/drive.py",
+          "line": 35,
+          "end_line": 61
+        }
+      ]
+    },
+    {
+      "id": "upload",
+      "type": "frontend",
+      "label": "Admin upload",
+      "sublabel": "admin-only API",
+      "tag": "10 MB cap",
+      "stage": 0,
+      "row": 2,
+      "sources": [
+        {
+          "path": "src/api/main.py",
+          "line": 221,
+          "end_line": 256
+        }
+      ]
+    },
+    {
+      "id": "extract",
+      "type": "backend",
+      "label": "Extractors",
+      "sublabel": "pdf docx html csv",
+      "tag": "located blocks",
+      "stage": 1,
+      "row": 1,
+      "sources": [
+        {
+          "path": "src/ingestion/extractors.py",
+          "line": 93,
+          "end_line": 158
+        },
+        {
+          "path": "src/ingestion/extractors.py",
+          "line": 170,
+          "end_line": 200,
+          "label": "parser subprocess"
+        }
+      ]
+    },
+    {
+      "id": "screen",
+      "type": "security",
+      "label": "Content screen",
+      "sublabel": "injection, secrets",
+      "tag": "fail closed",
+      "stage": 2,
+      "row": 1,
+      "sources": [
+        {
+          "path": "src/ingestion/pipeline.py",
+          "line": 47,
+          "end_line": 68
+        },
+        {
+          "path": "src/policy/safety.py",
+          "line": 25,
+          "end_line": 34
+        }
+      ]
+    },
+    {
+      "id": "quarantine",
+      "type": "security",
+      "label": "Quarantine",
+      "sublabel": "revoke, blocked=1",
+      "stage": 2,
+      "row": 2,
+      "sources": [
+        {
+          "path": "src/ingestion/pipeline.py",
+          "line": 127,
+          "end_line": 138
+        }
+      ]
+    },
+    {
+      "id": "chunk",
+      "type": "backend",
+      "label": "Chunk + embed",
+      "sublabel": "800 / 120 overlap",
+      "tag": "digest skip",
+      "stage": 3,
+      "row": 1,
+      "sources": [
+        {
+          "path": "src/ingestion/chunking.py",
+          "line": 48,
+          "end_line": 84
+        },
+        {
+          "path": "src/ingestion/pipeline.py",
+          "line": 143,
+          "end_line": 155
+        },
+        {
+          "path": "src/ingestion/embeddings.py",
+          "line": 24,
+          "end_line": 46
+        }
+      ]
+    },
+    {
+      "id": "sqlite",
+      "type": "database",
+      "label": "SQLite index",
+      "sublabel": "generation check",
+      "tag": "atomic swap",
+      "stage": 4,
+      "row": 1,
+      "sources": [
+        {
+          "path": "src/vectorstore/sqlite.py",
+          "line": 84,
+          "end_line": 128
+        },
+        {
+          "path": "src/vectorstore/sqlite.py",
+          "line": 130,
+          "end_line": 151,
+          "label": "revoke"
+        }
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "id": "connector-bytes",
+      "from": "connectors",
+      "to": "extract",
+      "label": "source bytes",
+      "classification": "company-wide only",
+      "variant": "emphasis"
+    },
+    {
+      "id": "upload-bytes",
+      "from": "upload",
+      "to": "extract",
+      "label": "upload bytes",
+      "classification": "isolated parser",
+      "variant": "default"
+    },
+    {
+      "id": "extracted-text",
+      "from": "extract",
+      "to": "screen",
+      "label": "text + blocks",
+      "classification": "untrusted",
+      "variant": "emphasis"
+    },
+    {
+      "id": "unsafe",
+      "from": "screen",
+      "to": "quarantine",
+      "label": "injection found",
+      "classification": "never embedded",
+      "variant": "security",
+      "labelDy": 25
+    },
+    {
+      "id": "clean-document",
+      "from": "screen",
+      "to": "chunk",
+      "label": "sanitized Document",
+      "classification": "redacted",
+      "variant": "emphasis"
+    },
+    {
+      "id": "vectors",
+      "from": "chunk",
+      "to": "sqlite",
+      "label": "chunks + vectors",
+      "classification": "one transaction",
+      "variant": "emphasis"
+    },
+    {
+      "id": "block-row",
+      "from": "quarantine",
+      "to": "sqlite",
+      "label": "blocked row",
+      "classification": "chunks deleted",
+      "variant": "security",
+      "fromSide": "right",
+      "toSide": "bottom",
+      "via": [
+        [
+          960,
+          385
+        ]
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Publication contract",
+      "items": [
+        "Old version stays live until the new one commits",
+        "Generation mismatch raises PublicationConflict",
+        "Older numeric revision can never replace newer"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Restriction wins",
+      "items": [
+        "company_wide=false revokes before any screening",
+        "Revoked docs need a strictly newer revision",
+        "Seed data never resurrects a revoked doc"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Pruning",
+      "items": [
+        "Only after a complete, scoped enumeration",
+        "Any failed file marks the scan incomplete"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,377 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "One question through the LangGraph query graph",
+    "output": "docs/diagrams/query-workflow.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/piyushmaps/int_mcp_agent",
+      "provider": "github",
+      "link_mode": "web",
+      "revision": "bde0429ed992c7506fb66da50bc121bc7bd12f00"
+    }
+  },
+  "lanes": [
+    {
+      "id": "client",
+      "label": "Client and API"
+    },
+    {
+      "id": "graph",
+      "label": "LangGraph nodes"
+    },
+    {
+      "id": "sources",
+      "label": "Source reads"
+    },
+    {
+      "id": "exits",
+      "label": "Withheld answers",
+      "variant": "exception"
+    }
+  ],
+  "phases": [
+    {
+      "id": "intake",
+      "label": "Intake + plan",
+      "fromCol": 0,
+      "toCol": 0
+    },
+    {
+      "id": "read",
+      "label": "Read + assess",
+      "fromCol": 1,
+      "toCol": 2,
+      "variant": "emphasis"
+    },
+    {
+      "id": "release",
+      "label": "Write + release gate",
+      "fromCol": 3,
+      "toCol": 5,
+      "variant": "security"
+    }
+  ],
+  "mainPath": [
+    "ask",
+    "plan",
+    "readers",
+    "assess",
+    "compose",
+    "validate",
+    "finalize",
+    "answer"
+  ],
+  "nodes": [
+    {
+      "id": "ask",
+      "lane": "client",
+      "col": 0,
+      "type": "frontend",
+      "label": "POST /api/chat",
+      "sublabel": "auth, session, admission",
+      "width": 150,
+      "sources": [
+        {
+          "path": "src/api/main.py",
+          "line": 126,
+          "end_line": 135,
+          "label": "prepare"
+        }
+      ]
+    },
+    {
+      "id": "answer",
+      "lane": "client",
+      "col": 5,
+      "type": "frontend",
+      "label": "SSE answer",
+      "sublabel": "one checked envelope, then done",
+      "width": 160,
+      "sources": [
+        {
+          "path": "src/api/main.py",
+          "line": 156,
+          "end_line": 191
+        }
+      ]
+    },
+    {
+      "id": "plan",
+      "lane": "graph",
+      "col": 0,
+      "type": "backend",
+      "label": "plan",
+      "sublabel": "regex or LLM, validated",
+      "tag": "1-6 tasks",
+      "width": 150,
+      "sources": [
+        {
+          "path": "src/orchestration/planner.py",
+          "line": 19,
+          "end_line": 59
+        }
+      ]
+    },
+    {
+      "id": "assess",
+      "lane": "graph",
+      "col": 2,
+      "type": "backend",
+      "label": "assess_evidence",
+      "sublabel": "merge, term filter, conflicts",
+      "width": 160,
+      "sources": [
+        {
+          "path": "src/orchestration/graph.py",
+          "line": 105,
+          "end_line": 123
+        },
+        {
+          "path": "src/evidence/checker.py",
+          "line": 8,
+          "end_line": 24
+        }
+      ]
+    },
+    {
+      "id": "compose",
+      "lane": "graph",
+      "col": 3,
+      "type": "backend",
+      "label": "compose_answer",
+      "sublabel": "extractive or LLM excerpts",
+      "width": 150,
+      "sources": [
+        {
+          "path": "src/answering/writer.py",
+          "line": 11,
+          "end_line": 63
+        }
+      ]
+    },
+    {
+      "id": "validate",
+      "lane": "graph",
+      "col": 4,
+      "type": "security",
+      "label": "validate_output",
+      "sublabel": "claim text in cited evidence",
+      "width": 150,
+      "sources": [
+        {
+          "path": "src/evidence/checker.py",
+          "line": 26,
+          "end_line": 46
+        }
+      ]
+    },
+    {
+      "id": "finalize",
+      "lane": "graph",
+      "col": 5,
+      "type": "security",
+      "label": "finalize",
+      "sublabel": "status, citations, memory",
+      "tag": "revocation recheck x2",
+      "width": 160,
+      "sources": [
+        {
+          "path": "src/orchestration/graph.py",
+          "line": 149,
+          "end_line": 184
+        }
+      ]
+    },
+    {
+      "id": "readers",
+      "lane": "sources",
+      "col": 1,
+      "type": "backend",
+      "label": "source_readers",
+      "sublabel": "parallel branches, 8-call budget",
+      "width": 170,
+      "sources": [
+        {
+          "path": "src/orchestration/graph.py",
+          "line": 81,
+          "end_line": 103
+        },
+        {
+          "path": "src/agents/specialists.py",
+          "line": 58,
+          "end_line": 129
+        },
+        {
+          "path": "src/retrieval/retriever.py",
+          "line": 20,
+          "end_line": 57
+        }
+      ],
+      "tag": "docs + Jira/Slack MCP"
+    },
+    {
+      "id": "refine",
+      "lane": "graph",
+      "col": 1,
+      "type": "backend",
+      "label": "refine_plan",
+      "sublabel": "round 0 empty, >3 s left",
+      "width": 160,
+      "sources": [
+        {
+          "path": "src/orchestration/graph.py",
+          "line": 125,
+          "end_line": 138
+        }
+      ]
+    },
+    {
+      "id": "blocked",
+      "lane": "exits",
+      "col": 4,
+      "type": "security",
+      "label": "blocked",
+      "sublabel": "unsupported claim",
+      "width": 150,
+      "sources": [
+        {
+          "path": "src/orchestration/graph.py",
+          "line": 152,
+          "end_line": 153
+        }
+      ]
+    },
+    {
+      "id": "revoked",
+      "lane": "exits",
+      "col": 5,
+      "type": "security",
+      "label": "blocked: changed",
+      "sublabel": "source revoked mid-answer",
+      "width": 160,
+      "sources": [
+        {
+          "path": "src/orchestration/graph.py",
+          "line": 169,
+          "end_line": 181
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "ask-plan",
+      "from": "ask",
+      "to": "plan",
+      "label": "resolved question",
+      "variant": "emphasis"
+    },
+    {
+      "id": "plan-readers",
+      "from": "plan",
+      "to": "readers",
+      "label": "SearchPlan",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "left"
+    },
+    {
+      "id": "readers-assess",
+      "from": "readers",
+      "to": "assess",
+      "label": "results",
+      "variant": "emphasis"
+    },
+    {
+      "id": "assess-refine",
+      "from": "assess",
+      "to": "refine",
+      "label": "no evidence",
+      "variant": "dashed",
+      "role": "branch"
+    },
+    {
+      "id": "refine-readers",
+      "from": "refine",
+      "to": "readers",
+      "label": "focused query",
+      "variant": "dashed",
+      "role": "return"
+    },
+    {
+      "id": "assess-compose",
+      "from": "assess",
+      "to": "compose",
+      "label": "12 newest",
+      "variant": "emphasis"
+    },
+    {
+      "id": "compose-validate",
+      "from": "compose",
+      "to": "validate",
+      "label": "draft",
+      "variant": "emphasis"
+    },
+    {
+      "id": "validate-blocked",
+      "from": "validate",
+      "to": "blocked",
+      "label": "fail",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "id": "validate-finalize",
+      "from": "validate",
+      "to": "finalize",
+      "label": "pass",
+      "variant": "emphasis"
+    },
+    {
+      "id": "finalize-revoked",
+      "from": "finalize",
+      "to": "revoked",
+      "label": "stale",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "id": "finalize-answer",
+      "from": "finalize",
+      "to": "answer",
+      "label": "AnswerResult",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Outcomes",
+      "items": [
+        "answered: claims pass, no limitations",
+        "partial: claims pass, any limitation present",
+        "insufficient_evidence or unavailable: no claims",
+        "blocked: gate failed or evidence changed"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Bounds",
+      "items": [
+        "asyncio.timeout 30 s around the whole graph",
+        "recursion_limit 16; at most one refinement",
+        "Shared CallBudget: 8 reads, 2 concurrent"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Never streamed",
+      "items": [
+        "Progress events carry stage names only",
+        "Draft text is released only after validation"
+      ]
+    }
+  ]
+}

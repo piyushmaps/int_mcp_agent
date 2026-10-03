@@ -1,0 +1,539 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Engineering Atlas \u2014 question answering and ingestion",
+    "output": "docs/diagrams/architecture.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/piyushmaps/int_mcp_agent",
+      "provider": "github",
+      "link_mode": "web",
+      "revision": "bde0429ed992c7506fb66da50bc121bc7bd12f00"
+    }
+  },
+  "components": [
+    {
+      "id": "ui",
+      "type": "frontend",
+      "label": "Web UI",
+      "sublabel": "static app.js, SSE reader",
+      "pos": [
+        40,
+        300
+      ],
+      "size": [
+        150,
+        64
+      ],
+      "sources": [
+        {
+          "path": "src/api/static/app.js",
+          "line": 313,
+          "end_line": 330,
+          "label": "POST /api/chat"
+        }
+      ]
+    },
+    {
+      "id": "auth",
+      "type": "security",
+      "label": "Authenticator",
+      "sublabel": "demo token or JWT RS256",
+      "pos": [
+        310,
+        110
+      ],
+      "size": [
+        170,
+        64
+      ],
+      "sources": [
+        {
+          "path": "src/policy/auth.py",
+          "line": 17,
+          "end_line": 41
+        }
+      ]
+    },
+    {
+      "id": "api",
+      "type": "backend",
+      "label": "FastAPI entrance",
+      "sublabel": "body cap, admission 12/2",
+      "tag": "429 on overload",
+      "pos": [
+        310,
+        300
+      ],
+      "size": [
+        170,
+        64
+      ],
+      "sources": [
+        {
+          "path": "src/api/main.py",
+          "line": 126,
+          "end_line": 191,
+          "label": "prepare + chat"
+        },
+        {
+          "path": "src/api/admission.py",
+          "line": 14,
+          "end_line": 24
+        }
+      ]
+    },
+    {
+      "id": "sessions",
+      "type": "database",
+      "label": "SessionStore",
+      "sublabel": "in-memory, owner-bound, TTL",
+      "pos": [
+        600,
+        110
+      ],
+      "size": [
+        190,
+        64
+      ],
+      "sources": [
+        {
+          "path": "src/storage/sessions.py",
+          "line": 12,
+          "end_line": 83
+        }
+      ]
+    },
+    {
+      "id": "engine",
+      "type": "backend",
+      "label": "LangGraph QueryEngine",
+      "sublabel": "plan, read, assess, write, check",
+      "tag": "release gate",
+      "pos": [
+        600,
+        300
+      ],
+      "size": [
+        190,
+        64
+      ],
+      "sources": [
+        {
+          "path": "src/orchestration/graph.py",
+          "line": 186,
+          "end_line": 201,
+          "label": "graph wiring"
+        },
+        {
+          "path": "src/evidence/checker.py",
+          "line": 26,
+          "end_line": 46,
+          "label": "claim gate"
+        },
+        {
+          "path": "src/orchestration/graph.py",
+          "line": 149,
+          "end_line": 184,
+          "label": "finalize + recheck"
+        }
+      ]
+    },
+    {
+      "id": "openai",
+      "type": "external",
+      "label": "OpenAI Responses",
+      "sublabel": "opt-in, structured output",
+      "tag": "MODEL_MODE=openai",
+      "pos": [
+        900,
+        690
+      ],
+      "size": [
+        170,
+        64
+      ],
+      "sources": [
+        {
+          "path": "src/answering/gateway.py",
+          "line": 21,
+          "end_line": 50
+        }
+      ]
+    },
+    {
+      "id": "specialists",
+      "type": "backend",
+      "label": "Source specialists",
+      "sublabel": "4 steps, shared 8-call budget",
+      "pos": [
+        900,
+        300
+      ],
+      "size": [
+        170,
+        64
+      ],
+      "sources": [
+        {
+          "path": "src/agents/specialists.py",
+          "line": 58,
+          "end_line": 129
+        },
+        {
+          "path": "src/integrations/mcp/budget.py",
+          "line": 13,
+          "end_line": 33
+        }
+      ]
+    },
+    {
+      "id": "mcpclient",
+      "type": "security",
+      "label": "MCPSourceClient",
+      "sublabel": "catalog pin, arg schema, screening",
+      "pos": [
+        1190,
+        300
+      ],
+      "size": [
+        180,
+        64
+      ],
+      "sources": [
+        {
+          "path": "src/integrations/mcp/client.py",
+          "line": 55,
+          "end_line": 126
+        },
+        {
+          "path": "src/integrations/mcp/catalog.py",
+          "line": 67,
+          "end_line": 104
+        },
+        {
+          "path": "src/integrations/mcp/screening.py",
+          "line": 61,
+          "end_line": 126
+        }
+      ]
+    },
+    {
+      "id": "jira",
+      "type": "external",
+      "label": "Jira MCP server",
+      "sublabel": "FastMCP, stdio or HTTP",
+      "pos": [
+        1460,
+        200
+      ],
+      "size": [
+        170,
+        64
+      ],
+      "sources": [
+        {
+          "path": "src/integrations/mcp/server.py",
+          "line": 50,
+          "end_line": 59
+        }
+      ]
+    },
+    {
+      "id": "slack",
+      "type": "external",
+      "label": "Slack MCP server",
+      "sublabel": "FastMCP, stdio or HTTP",
+      "pos": [
+        1460,
+        400
+      ],
+      "size": [
+        170,
+        64
+      ],
+      "sources": [
+        {
+          "path": "src/integrations/mcp/server.py",
+          "line": 60,
+          "end_line": 69
+        }
+      ]
+    },
+    {
+      "id": "retriever",
+      "type": "backend",
+      "label": "SourceRetriever",
+      "sublabel": "relevance gate, dedupe, top-k",
+      "pos": [
+        600,
+        500
+      ],
+      "size": [
+        190,
+        64
+      ],
+      "sources": [
+        {
+          "path": "src/retrieval/retriever.py",
+          "line": 20,
+          "end_line": 57
+        }
+      ]
+    },
+    {
+      "id": "sqlite",
+      "type": "database",
+      "label": "SQLite index",
+      "sublabel": "BM25 + cosine, RRF fusion",
+      "tag": "WAL, active version",
+      "pos": [
+        600,
+        690
+      ],
+      "size": [
+        190,
+        64
+      ],
+      "sources": [
+        {
+          "path": "src/vectorstore/sqlite.py",
+          "line": 84,
+          "end_line": 128,
+          "label": "atomic publish"
+        },
+        {
+          "path": "src/vectorstore/sqlite.py",
+          "line": 199,
+          "end_line": 250,
+          "label": "hybrid search"
+        }
+      ]
+    },
+    {
+      "id": "pipeline",
+      "type": "backend",
+      "label": "Ingestion pipeline",
+      "sublabel": "screen, chunk, embed, publish",
+      "tag": "parser subprocess",
+      "pos": [
+        310,
+        690
+      ],
+      "size": [
+        170,
+        64
+      ],
+      "sources": [
+        {
+          "path": "src/ingestion/pipeline.py",
+          "line": 111,
+          "end_line": 176
+        },
+        {
+          "path": "src/ingestion/extractors.py",
+          "line": 170,
+          "end_line": 200,
+          "label": "isolated parser"
+        }
+      ]
+    },
+    {
+      "id": "connectors",
+      "type": "external",
+      "label": "Connectors",
+      "sublabel": "local dir, web, Drive",
+      "pos": [
+        40,
+        690
+      ],
+      "size": [
+        150,
+        64
+      ],
+      "sources": [
+        {
+          "path": "src/connectors/filesystem.py",
+          "line": 31,
+          "end_line": 64
+        },
+        {
+          "path": "src/connectors/web.py",
+          "line": 20,
+          "end_line": 77
+        },
+        {
+          "path": "src/connectors/drive.py",
+          "line": 35,
+          "end_line": 61
+        }
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "FastAPI process (single replica)",
+      "wraps": [
+        "auth",
+        "api",
+        "sessions",
+        "engine",
+        "specialists",
+        "mcpclient",
+        "retriever"
+      ]
+    },
+    {
+      "kind": "security-group",
+      "label": "Synthetic fixture sources",
+      "wraps": [
+        "jira",
+        "slack"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "ui-api",
+      "from": "ui",
+      "to": "api",
+      "label": "/api/chat SSE",
+      "variant": "emphasis"
+    },
+    {
+      "id": "api-auth",
+      "from": "api",
+      "to": "auth",
+      "label": "verify bearer",
+      "variant": "security",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "api-engine",
+      "from": "api",
+      "to": "engine",
+      "label": "run(question)",
+      "variant": "emphasis"
+    },
+    {
+      "id": "engine-sessions",
+      "from": "engine",
+      "to": "sessions",
+      "label": "load, save, invalidate",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "engine-specialists",
+      "from": "engine",
+      "to": "specialists",
+      "label": "SearchTask",
+      "variant": "emphasis"
+    },
+    {
+      "id": "specialists-mcp",
+      "from": "specialists",
+      "to": "mcpclient",
+      "label": "read tool call",
+      "variant": "emphasis"
+    },
+    {
+      "id": "engine-retriever",
+      "from": "engine",
+      "to": "retriever",
+      "label": "documents task",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "retriever-sqlite",
+      "from": "retriever",
+      "to": "sqlite",
+      "label": "hybrid search",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "connectors-pipeline",
+      "from": "connectors",
+      "to": "pipeline",
+      "label": "Documents"
+    },
+    {
+      "id": "api-pipeline",
+      "from": "api",
+      "to": "pipeline",
+      "label": "admin upload",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "pipeline-sqlite",
+      "from": "pipeline",
+      "to": "sqlite",
+      "label": "publish"
+    },
+    {
+      "id": "mcp-jira",
+      "from": "mcpclient",
+      "to": "jira",
+      "label": "MCP"
+    },
+    {
+      "id": "mcp-slack",
+      "from": "mcpclient",
+      "to": "slack",
+      "label": "MCP"
+    },
+    {
+      "id": "engine-openai",
+      "from": "engine",
+      "to": "openai",
+      "label": "ModelGateway (opt-in)",
+      "variant": "dashed",
+      "fromSide": "right",
+      "toSide": "left"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "Release gate",
+      "items": [
+        "Every claim must be an exact excerpt of cited evidence",
+        "Revocation rechecked before and after memory save",
+        "Raw drafts never stream; SSE sends progress only"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Bounds",
+      "items": [
+        "30 s deadline, 8 tool calls, 2 concurrent reads",
+        "One refinement round when evidence is empty",
+        "Evidence capped at 12 items, newest first"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Ingestion",
+      "items": [
+        "Screen before embedding; injection quarantines",
+        "Generation check + atomic active-version swap",
+        "Prune only after a complete scoped enumeration"
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "Process-local state",
+      "items": [
+        "Sessions, admission and telemetry live in memory",
+        "Restart drops them; replicas would not share them"
+      ]
+    }
+  ]
+}
